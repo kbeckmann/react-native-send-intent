@@ -119,4 +119,16 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
       }
     }
 
+    @ReactMethod
+    public void sendView(String pkg, String uri, String type) {
+        Intent intent = new Intent();
+        intent.setPackage(pkg);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setType(type);
+        intent.setData(Uri.parse(uri));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent.resolveActivity(this.reactContext.getPackageManager()) != null) {
+            this.reactContext.startActivity(intent);
+        }
+    }
 }

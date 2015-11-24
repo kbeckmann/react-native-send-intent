@@ -27,7 +27,10 @@ var SendIntentAndroid = {
     },
     sendSms(phoneNumber, body) {
         RNSendIntentAndroid.sendSms(phoneNumber, body);
-    }
+    },
+    sendView(pkg, uri, type) {
+        RNSendIntentAndroid.sendView(pkg, uri, type);
+     }
 };
 
 module.exports = SendIntentAndroid;
