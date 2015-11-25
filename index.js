@@ -30,7 +30,10 @@ var SendIntentAndroid = {
     },
     sendView(pkg, uri, type) {
         RNSendIntentAndroid.sendView(pkg, uri, type);
-     }
+    },
+    canSendView(pkg, uri, type, callback) {
+        RNSendIntentAndroid.canSendView(pkg, uri, type, callback);
+    }
 };
 
 module.exports = SendIntentAndroid;
