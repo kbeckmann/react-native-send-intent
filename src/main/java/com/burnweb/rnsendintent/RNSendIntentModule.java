@@ -1,12 +1,19 @@
 package com.burnweb.rnsendintent;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.os.Environment;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Date;
 import java.lang.SecurityException;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.NativeModule;
@@ -141,5 +148,61 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
         intent.setData(Uri.parse(uri));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         callback.invoke(intent.resolveActivity(this.reactContext.getPackageManager()) != null);
+    }
+
+
+
+
+
+
+
+
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "MD_" + timeStamp + "_";
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/tmp/");
+
+        // Create /sdcard/tmp if it's not there
+        if (!storageDir.exists()) {
+            storageDir.mkdir();
+        }
+
+        File image = File.createTempFile(
+            imageFileName,  /* prefix */
+            ".jpg",         /* suffix */
+            storageDir      /* directory */
+        );
+
+        return image;
+    }
+
+    @ReactMethod
+    public void startCamera(Callback callback) {
+      String ret = "";
+      Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+      takePictureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      // Ensure that there's a camera activity to handle the intent
+      if (takePictureIntent.resolveActivity(this.reactContext.getPackageManager()) != null) {
+          // Create the File where the photo should go
+          File photoFile = null;
+          try {
+              photoFile = createImageFile();
+          } catch (IOException ex) {
+              // Error occurred while creating the File
+
+          }
+          // Continue only if the File was successfully created
+          if (photoFile != null) {
+              takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+              this.reactContext.startActivity(takePictureIntent);
+
+              ret = photoFile.getAbsolutePath();
+          }
+      }
+
+      callback.invoke(ret);
     }
 }

@@ -33,6 +33,9 @@ var SendIntentAndroid = {
     },
     canSendView(pkg, uri, type, callback) {
         RNSendIntentAndroid.canSendView(pkg, uri, type, callback);
+    },
+    startCamera(callback) {
+        RNSendIntentAndroid.startCamera(callback);
     }
 };
 
