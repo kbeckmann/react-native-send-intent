@@ -28,11 +28,11 @@ var SendIntentAndroid = {
     sendSms(phoneNumber, body) {
         RNSendIntentAndroid.sendSms(phoneNumber, body);
     },
-    sendView(pkg, uri, type) {
-        RNSendIntentAndroid.sendView(pkg, uri, type);
+    sendView(uri, pkg, type) {
+        RNSendIntentAndroid.sendView(uri, pkg, type);
     },
-    canSendView(pkg, uri, type, callback) {
-        RNSendIntentAndroid.canSendView(pkg, uri, type, callback);
+    canSendView(uri, pkg, type, callback) {
+        RNSendIntentAndroid.canSendView(uri, pkg, type, callback);
     },
     startCamera(callback) {
         RNSendIntentAndroid.startCamera(callback);

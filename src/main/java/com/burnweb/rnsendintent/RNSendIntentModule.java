@@ -127,12 +127,19 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void sendView(String pkg, String uri, String type) {
+    public void sendView(String uri, String pkg, String type) {
         Intent intent = new Intent();
-        intent.setPackage(pkg);
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setType(type);
-        intent.setData(Uri.parse(uri));
+        // Build the intent in this order, it will not work otherwise.
+        if (pkg != null && !pkg.isEmpty()) {
+            intent.setPackage(pkg);
+        }
+        if (type != null && !type.isEmpty()) {
+            intent.setType(type);
+        }
+        if (uri != null && !uri.isEmpty()) {
+            intent.setData(Uri.parse(uri));
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (intent.resolveActivity(this.reactContext.getPackageManager()) != null) {
             this.reactContext.startActivity(intent);
@@ -140,12 +147,19 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void canSendView(String pkg, String uri, String type, Callback callback) {
+    public void canSendView(String uri, String pkg, String type, Callback callback) {
         Intent intent = new Intent();
-        intent.setPackage(pkg);
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setType(type);
-        intent.setData(Uri.parse(uri));
+        // Build the intent in this order, it will not work otherwise.
+        if (pkg != null && !pkg.isEmpty()) {
+            intent.setPackage(pkg);
+        }
+        if (type != null && !type.isEmpty()) {
+            intent.setType(type);
+        }
+        if (uri != null && !uri.isEmpty()) {
+            intent.setData(Uri.parse(uri));
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         callback.invoke(intent.resolveActivity(this.reactContext.getPackageManager()) != null);
     }
